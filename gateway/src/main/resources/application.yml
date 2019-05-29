@@ -1,0 +1,81 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+          filters:
+          - TokenFilter
+      routes:
+        - id: wd-file
+          uri: lb://file
+          predicates:
+          - Path=/files/**
+          filters:
+          - StripPrefix=1
+        - id: wd-uac
+          uri: lb://uac
+          predicates:
+          - Path=/users/**
+          filters:
+          - StripPrefix=1
+        - id: wd-captcha
+          uri: lb://captcha
+          predicates:
+          - Path=/captchas/**
+          filters:
+          - StripPrefix=1
+        - id: wd-pay
+          uri: lb://pay
+          predicates:
+          - Path=/pays/**
+          filters:
+          - StripPrefix=1
+        - id: wd-sms
+          uri: lb://sms
+          predicates:
+          - Path=/smss/**
+          filters:
+          - StripPrefix=1
+
+    config:
+      discovery:
+        enabled: true
+        service-id: config
+      fail-fast: true
+      username: user
+      password: user
+      retry:
+        initial-interval: 2000
+        max-interval: 10000
+        multiplier: 2
+        max-attempts: 10
+
+  security:
+    user:
+      name: admin
+      password: admin
+
+  sleuth:
+    sampler:
+      probability: 1.0
+
+  zipkin:
+    base-url: http://zipkin:9411
+    discoveryClientEnabled: true
+
+eureka:
+  instance:
+    hostname: gateway
+    prefer-ip-address: true
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+  client:
+    service-url:
+      defaultZone: http://user:user@localhost:8761/eureka/

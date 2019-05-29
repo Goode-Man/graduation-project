@@ -1,0 +1,55 @@
+server:
+  port: 8021
+
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 1800
+  tokenHead: cs
+
+redis:
+  port: 6379
+  pool:
+    max-active: 8
+    max-wait: -1
+    max-idle: 8
+    min-idle: 0
+  timeout: 0
+
+spring:
+  application:
+    name: uac
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config
+      fail-fast: true
+      username: user
+      password: user
+      retry:
+        initial-interval: 2000
+        max-interval: 10000
+        multiplier: 2
+        max-attempts: 10
+#  security:
+#    user:
+#      name: user
+#      password: user
+  datasource:
+    url: jdbc:mysql://localhost:3306/graduation?serverTimezone=GMT
+    username: root
+    password: 5261
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://user:user@localhost:8761/eureka/

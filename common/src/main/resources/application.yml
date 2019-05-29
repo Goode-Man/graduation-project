@@ -1,0 +1,17 @@
+
+#jwt:
+#  header: Authorization
+#  secret: mySecret
+#  expiration: 1800
+#  tokenHead: cs
+
+redis:
+  port: 6379
+  host: localhost
+  database: 0
+  pool:
+    max-active: 8
+    max-wait: -1
+    max-idle: 8
+    min-idle: 0
+  timeout: 0

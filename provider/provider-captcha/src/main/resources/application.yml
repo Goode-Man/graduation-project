@@ -1,0 +1,31 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: captcha
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config
+      fail-fast: true
+      username: user
+      password: user
+      retry:
+        initial-interval: 2000
+        max-interval: 10000
+        multiplier: 2
+        max-attempts: 10
+  security:
+    user:
+      name: user
+      password: user
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://user:user@localhost:8761/eureka/
+
+
